@@ -7,9 +7,12 @@
     {% for entry in blog %}
 
         <h2>
-            <a href='./blog?id={{ entry.id }}'>{{ entry.title }}</a>            
+            <a href='./blog?id={{ entry.id }}'>{{ entry.title }}</a>
         </h2>
+        
+        
         <p>{{ entry.body }}</p>
+        <hr/>
     
     {% endfor %}
 

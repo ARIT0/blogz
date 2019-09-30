@@ -41,18 +41,23 @@ def new_post():
             db.session.add(new_post)
             db.session.commit()
 
-            #blog_id = new_post.id
-            #blog = Blog.query.filter_by(id = blog_id).first()
+            blog_id = new_post.id
+            blog = Blog.query.filter_by(id=blog_id).first()
 
-            return redirect('/blog')
+            return render_template('singlepost.html', blog=blog)
     
     return render_template('add_new_post.html')
     
 
 @app.route('/blog')  #displays all blog posts
 def blog():
+    
+    if request.args.get('id'):
+        blog_id = request.args.get('id')
+        blog = Blog.query.filter_by(id = blog_id).first()
+        return render_template('singlepost.html', blog = blog)
+    
     blog = Blog.query.all()
-
     return render_template('main_blog_page.html', blog=blog)
 
 
