@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
-import cgi
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -9,10 +9,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:mynewpassw
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
+
 class Blog(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(120))
     body = db.Column(db.Text())
+    blog_date = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
 
     def __init__(self, title, body):
         self.title = title
@@ -57,7 +59,7 @@ def blog():
         blog = Blog.query.filter_by(id = blog_id).first()
         return render_template('singlepost.html', blog = blog)
     
-    blog = Blog.query.all()
+    blog = Blog.query.order_by(Blog.blog_date.desc()).all()
     return render_template('main_blog_page.html', blog=blog)
 
 
