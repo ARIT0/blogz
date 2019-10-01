@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h2>All Entries</h2>
+    <h2 class='mainTitle'>All Entries</h2>
 
     {% for entry in blog %}
 
@@ -11,7 +11,7 @@
         </h2>
         
         
-        <p>{{ entry.body }}</p>
+        <p class="entry">{{ entry.body }}</p>
         <hr/>
     
     {% endfor %}
