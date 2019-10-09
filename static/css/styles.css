@@ -33,9 +33,14 @@ h2{
     color: rgb(52, 73, 94);
 }
 
+h3{
+    color: rgb(158, 89, 9);
+}
+
 .entry{
     text-align: center;
     color: rgb(86, 101, 115 );
+    font-size: 14px; 
 }
 
 hr{
@@ -51,7 +56,7 @@ div{
 }
 
 .button{
-    margin-left: 175px;
+    margin-left: 150px;
 }
 
 .singTitle{
@@ -60,4 +65,14 @@ div{
 
 .mainTitle{
     font-size: 44px;
+}
+
+.author{
+    text-align: left;
+    font-size: 11px;
+    color: rgb(86, 101, 115 );
+}
+
+nav #user-account{
+    float: right;
 }

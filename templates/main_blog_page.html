@@ -2,14 +2,13 @@
 
 {% block content %}
 
-    <h2 class='mainTitle'>All Entries</h2>
+<h2 class='mainTitle'>All Entries</h2>
 
     {% for entry in blog %}
 
         <h2>
             <a href='./blog?id={{ entry.id }}'>{{ entry.title }}</a>
         </h2>
-        
         
         <p class="entry">{{ entry.body }}</p>
         <hr/>

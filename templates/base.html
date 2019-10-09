@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html>
 
-    <nav>
-        <a href='/blog'>Main Blog Page</a>
-        <a href='/newpost'>Add a Blog Entry</a>
-    </nav>
+  <nav>
+      <a href="/">Home</a> <a href='/blog'>All Blogz</a> 
+      {% if 'username' in session %}
+        <a href='/newpost'>Add a Blog Entry</a> <a id='user-account' href="/logout" method="post">Logout</a> 
+      {% else %}
+        <!-- {{ session['username'] }} <a id='user-account' href="/signup">Signup</a>|| -->
+        <a id='user-account' href="/login">Login</a> 
+      {% endif %}
+        
+  </nav>
 
-    <head>
-        <title>Blog</title>
-        <!--The link to the stylesheet -->
-        <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='css/styles.css') }}" >
-    </head>
+  <head>
+      <title>Blog</title>
+      <!--The link to the stylesheet -->
+      <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='css/styles.css') }}" >
+  </head>
 
 
-    <body>
-        <!--content-->
-    
-    {% block content %}
-    {% endblock %}
+  <body>
+      <!--content-->
+  
+  {% block content %}
+  {% endblock %}
+
+  <div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+  </div>
 
     </body>
 </html>

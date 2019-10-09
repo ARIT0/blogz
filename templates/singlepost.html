@@ -3,8 +3,9 @@
 {% block content %}
 
     <h2 class='singTitle'>{{blog.title}}</h2></a>
-    <p>{{blog.body}}</p>
+    <p class='entry'>{{blog.body}}</p>
+    <p class='author'>Written by: <a href="/blog?user={{ blog.owner_id }}">{{blog.owner.username}}</a></p>
+    <p class='author'>Posted on: {{ blog.blog_date }}</p>          
     <hr/>
-
 
 {% endblock %}
