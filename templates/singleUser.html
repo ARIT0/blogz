@@ -17,7 +17,15 @@
                 <p class='author'>Written by: <a href="/blog?user={{blog.owner_id }}">{{blog.owner.username}}</a></p>
                 <p class='author'>Posted on: {{ blog.blog_date }}</p>    
                 <hr/>
-
             {% endfor %}
+        {% endif %}    
+            
+            <!--Pagination-->
+        {% if prev_url %}
+            <a href="{{ prev_url }}">Newer posts</a>
         {% endif %}
+        {% if next_url %}
+            <a id="next_page" href="{{ next_url }}">Older posts</a>
+        {% endif %}
+        
 {% endblock %}

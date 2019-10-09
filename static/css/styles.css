@@ -40,7 +40,7 @@ h3{
 .entry{
     text-align: center;
     color: rgb(86, 101, 115 );
-    font-size: 14px; 
+    font-size: 16px; 
 }
 
 hr{
@@ -75,4 +75,8 @@ div{
 
 nav #user-account{
     float: right;
+}
+
+#next_page{
+    float:right;
 }

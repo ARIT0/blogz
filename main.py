@@ -1,6 +1,7 @@
-from flask import Flask, request, redirect, render_template, session, flash
+from flask import Flask, request, redirect, render_template, session, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from hashutils import make_pw_hash, check_pw_hash
+#from flask_paginate import Pagination, get_page_args
 
 from datetime import datetime
 import cgi
@@ -78,9 +79,8 @@ def blog():
 
     blog_id = request.args.get('id')
     user_id = request.args.get('user')
+    per_page = 5
     
-    entries = Blog.query.order_by(Blog.blog_date.desc()).all()
-
     #Individual Blog Entry
     if blog_id:
         blog = Blog.query.filter_by(id=blog_id).first()
@@ -88,13 +88,27 @@ def blog():
 
     #All post from a specific user
     if user_id:
+        page = request.args.get('page', 1, type=int)
         user_name = User.query.get(user_id) #this worked
-        blogz = Blog.query.filter_by(owner_id=user_id).order_by(Blog.blog_date.desc()).all()
-        return render_template('singleUser.html', user=user_name, blogs=blogz)
+        blogz = Blog.query.filter_by(owner_id=user_id).order_by(Blog.blog_date.desc()).paginate(page, per_page, False)
+        #In order for url_for to work you must import url_for in the first line of code
+        next_url = url_for('blog', page=blogz.next_num) \
+            if blogz.has_next else None
+        prev_url = url_for('blog', page=blogz.prev_num) \
+            if blogz.has_prev else None
+        return render_template('singleUser.html', user=user_name, blogs=blogz.items,
+                                next_url=next_url, prev_url=prev_url)
 
     #All the posts from all the users 
     else:
-        return render_template('main_blog_page.html', blog=entries)
+        page = request.args.get('page',1,type=int)
+        entries = Blog.query.order_by(Blog.blog_date.desc()).paginate(page, per_page, False)
+        next_url = url_for('blog', page=entries.next_num) \
+            if entries.has_next else None
+        prev_url = url_for('blog', page=entries.prev_num) \
+            if entries.has_prev else None
+        return render_template('main_blog_page.html', blog=entries.items,
+                                 next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -125,12 +139,10 @@ def signup():
     if request.method == "GET":
         return render_template("signup.html")
     
-    else: #request.method == 'POST'
+    else: 
         username = request.form['username']
         password = request.form['password']
         verify = request.form['verify']
-
-        # TODO - validate user's data
 
         existing_user = User.query.filter_by(username=username).first()
         if not username or not password:
