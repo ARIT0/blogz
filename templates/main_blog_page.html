@@ -11,6 +11,8 @@
         </h2>
         
         <p class="entry">{{ entry.body }}</p>
+        <br>
+        <p class='author'>Written by: <a href="/blog?user={{entry.owner_id }}">{{entry.owner.username}}</a></p>
         <hr/>
     
     {% endfor %}
